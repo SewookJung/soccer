@@ -40,8 +40,8 @@ front-end/packages/react-devtools-shell/dist
 front-end/packages/react-devtools-scheduling-profiler/dist
 
 #Back-end(FastApi) lists
-bin
-lib
+back-end/bin
+back-end/lib
 back-end/__pycache__
 
 #Python fomatter vscode
