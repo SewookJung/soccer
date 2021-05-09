@@ -43,6 +43,7 @@ front-end/packages/react-devtools-scheduling-profiler/dist
 back-end/bin
 back-end/lib
 back-end/__pycache__
+back-end/include
 
 #Python fomatter vscode
 .vscode
