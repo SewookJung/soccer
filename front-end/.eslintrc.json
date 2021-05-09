@@ -3,7 +3,8 @@
     "plugins": ["prettier"],
     "rules": {
         "prettier/prettier": ["error", {"singleQuote": true, "parser": "flow"}],
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "no-unused-vars": ["warn", { "args": "all" }]
     },
     "env": {
         "browser": true,
