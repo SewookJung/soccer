@@ -1,5 +1,10 @@
 import React from 'react';
+import Test from './components/Test';
 
-const App = () => <div className="App">test</div>;
+const App = () => (
+  <div className="App">
+    <Test />
+  </div>
+);
 
 export default App;
