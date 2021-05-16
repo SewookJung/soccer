@@ -7,7 +7,6 @@ const Test = () => {
     try {
       const res = await axios.get('http://127.0.0.1:8000/');
       const resResult = res.data;
-      console.log(resResult);
       setResult(resResult);
     } catch (e) {
       console.log(e);

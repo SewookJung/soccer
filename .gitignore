@@ -44,6 +44,3 @@ back-end/bin
 back-end/lib
 back-end/__pycache__
 back-end/include
-
-#Python fomatter vscode
-.vscode
