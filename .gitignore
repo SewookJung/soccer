@@ -1,4 +1,4 @@
-# Front-end(React) lists
+# Front-end(React)
 front-end/.DS_STORE
 front-end/node_modules
 front-end/scripts/flow/*/.flowconfig
@@ -39,8 +39,8 @@ front-end/packages/react-devtools-inline/dist
 front-end/packages/react-devtools-shell/dist
 front-end/packages/react-devtools-scheduling-profiler/dist
 
-#Back-end(FastApi) lists
+#Back-end(FastApi)
 back-end/bin
 back-end/lib
-back-end/__pycache__
 back-end/include
+__pycache__/
