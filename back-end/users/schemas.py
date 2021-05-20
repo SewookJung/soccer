@@ -1,5 +1,5 @@
-from pydantic import BaseModel
-from pydantic.typing import is_callable_type
+from pydantic import BaseModel, validator
+from typing import Optional
 
 
 class CreateUserRequest(BaseModel):
@@ -8,17 +8,25 @@ class CreateUserRequest(BaseModel):
     password: str
     is_active: bool
 
+    @validator("name")
+    def check_name(cls, v):
+        if not v:
+            raise ValueError("Name is must be not a blank")
 
-class GetUserRequest(BaseModel):
-    id: int
+    @validator("email")
+    def check_email(cls, v):
+        if not v:
+            raise ValueError("E-mail is must be not a blank")
+
+    @validator("password")
+    def check_password(cls, v):
+        if not v:
+            raise ValueError("Password is must be not a blank")
 
 
 class UpdateUserRequest(BaseModel):
-    name: str
-    email: str
-    password: str
-    is_active: bool
-
-
-class DeleteUserRequest(BaseModel):
     id: int
+    name: Optional[str] = None
+    email: Optional[str] = None
+    password: Optional[str] = None
+    is_active: bool
