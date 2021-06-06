@@ -43,4 +43,5 @@ front-end/packages/react-devtools-scheduling-profiler/dist
 back-end/bin
 back-end/lib
 back-end/include
+back-end/config
 __pycache__/
