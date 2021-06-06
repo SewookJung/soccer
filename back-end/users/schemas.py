@@ -30,3 +30,9 @@ class UpdateUserRequest(BaseModel):
     email: Optional[str] = None
     password: Optional[str] = None
     is_active: bool
+
+
+class AuthDetails(BaseModel):
+    username: str
+    password: str
+    email: str
