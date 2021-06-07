@@ -18,8 +18,8 @@ Notion: [Link](https://www.notion.so/Soccer-Project-01e576c578aa40e39996334fda22
 1.  Routers
 
 - [x] User
-- [] Login
-- [] Home
+- [ ] Login
+- [ ] Home
 
 2. Table
 
@@ -27,5 +27,5 @@ Notion: [Link](https://www.notion.so/Soccer-Project-01e576c578aa40e39996334fda22
       - [x] Create User / Get User
       - [x] Hashed password
       - [x] Used JWT(Json Web Token)
-      - [] Delete User
-      - [] Update User
+      - [ ] Delete User
+      - [ ] Update User
