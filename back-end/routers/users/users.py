@@ -1,38 +1,64 @@
+from http.client import responses
 from fastapi import APIRouter, Depends, status
 from fastapi.exceptions import HTTPException
 
 from sqlalchemy.orm.session import Session
+from sqlalchemy.orm import defer
 
 from database import get_db
-
+from globals.functions.response import reponses as res
 
 from routers.users.auth import AuthHandler
 from routers.users.models import User
 from routers.users.schemas import CreateUserRequest, AuthDetails
-
-from globals.responses import custom_exception
 
 
 auth_handler = AuthHandler()
 
 
 router = APIRouter(
-    prefix="/users", tags=["users"], responses={404: {"discription": "Not Found"}}
+    prefix="/users",
+    tags=["users"],
 )
 
 
-@router.get("/{nickname}", status_code=status.HTTP_200_OK)
+@router.get(
+    "/{nickname}",
+    summary="Get user by nickname",
+    responses={
+        status.HTTP_404_NOT_FOUND: {"description": "User not found"},
+        status.HTTP_200_OK: {
+            "content": {
+                "application/json": {
+                    "example": {
+                        "success": True,
+                        "data": {
+                            "name": "string",
+                            "email": "string",
+                            "nickname": "string",
+                            "is_active": True,
+                            "id": 0,
+                        },
+                    }
+                }
+            },
+        },
+    },
+)
 async def get_user(nickname: str, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.nickname == nickname).first()
+    user = (
+        db.query(User)
+        .options(defer("password"))
+        .filter(User.nickname == nickname)
+        .first()
+    )
 
     if not user:
-
         raise HTTPException(
-            status.HTTP_404_NOT_FOUND,
-            detail="Not found user",
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=res(success=False, msg=f"Not found user of {nickname}"),
         )
-
-    return {"success": True, "user_id": user.id}
+    return res(success=True, data=user)
 
 
 @router.post(
@@ -40,19 +66,25 @@ async def get_user(nickname: str, db: Session = Depends(get_db)):
     status_code=status.HTTP_201_CREATED,
     responses={
         status.HTTP_409_CONFLICT: {
-            "description": "Conflict",
-        }
+            "description": "Conflict e-mail information",
+        },
+        status.HTTP_201_CREATED: {
+            "content": {
+                "application/json": {
+                    "example": {
+                        "success": True,
+                        "data": {"user_id": 0},
+                    }
+                }
+            },
+        },
     },
+    summary="Create new account",
 )
 async def create_user(details: CreateUserRequest, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == details.email).first()
     if user:
-        HTTPException()
-        raise HTTPException(status.HTTP_409_CONFLICT, detail="Conflict email")
-
-    user = db.query(User).filter(User.nickname == details.nickname).first()
-    if user:
-        raise HTTPException(status.HTTP_409_CONFLICT, detail="Conflict nickname")
+        raise res(success=False, msg="Conflict of e-mail")
 
     hashed_password = auth_handler.get_password_hash(details.password)
 
@@ -60,12 +92,10 @@ async def create_user(details: CreateUserRequest, db: Session = Depends(get_db))
         name=details.name,
         email=details.email,
         password=hashed_password,
-        nickname=details.nickname,
     )
     db.add(new_user)
     db.commit()
-
-    return {"success": True, "user_id": new_user.id}
+    return res(success=True, data=new_user.id)
 
 
 @router.post("/login", status_code=status.HTTP_200_OK)
