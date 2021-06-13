@@ -6,7 +6,6 @@ class CreateUserRequest(BaseModel):
     name: str
     email: str
     password: str
-    nickname: str
 
     @validator("name")
     def check_name(cls, v):
@@ -18,12 +17,6 @@ class CreateUserRequest(BaseModel):
     def check_email(cls, v):
         if not v:
             raise ValueError("Email is blank")
-        return v
-
-    @validator("nickname")
-    def check_nickname(cls, v):
-        if not v:
-            raise ValueError("Nickname is blank")
         return v
 
     @validator("password")
