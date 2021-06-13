@@ -6,7 +6,7 @@ from config.settings import Config
 
 settings = Config()
 
-engine = create_engine(settings.sqlalchemy_base_url)  # Just created engine
+engine = create_engine(settings.SQLALCHEMY_BASE_URL)  # Just created engine
 SessionLocal = sessionmaker(
     engine
 )  # It's the way about request to database server from fastapi server
